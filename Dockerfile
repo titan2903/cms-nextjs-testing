@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package.json yarn.lock ./
 
 # Install app dependencies
-RUN yarn install --immutable
+RUN yarn install
 
 # Copy the entire project to the working directory
 COPY . .
