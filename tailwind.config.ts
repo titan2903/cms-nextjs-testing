@@ -18,4 +18,5 @@ export default {
     hoverOnlyWhenSupported: true,
   },
   plugins: [typography],
+  output: 'standalone',
 } satisfies Config
