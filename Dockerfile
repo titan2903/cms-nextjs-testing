@@ -33,6 +33,7 @@ RUN cat /app/.env.local
 RUN ls -al /app
 
 RUN yarn build
+
 # If using npm, comment out above and use below instead
 # RUN npm run build
 
