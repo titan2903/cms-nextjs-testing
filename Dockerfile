@@ -28,6 +28,7 @@ ENV NEXT_TELEMETRY_DISABLED 1
 # Debugging statement
 RUN ls -al /app
 
+RUN yarn build
 # If using npm, comment out above and use below instead
 # RUN npm run build
 
