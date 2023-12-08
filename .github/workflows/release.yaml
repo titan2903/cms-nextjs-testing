@@ -11,6 +11,8 @@ on:
 jobs:
   build-push:
     runs-on: ubuntu-latest
+    env:
+      ENV_FILE: ${{ secrets.ENV_FILE }}
     steps:
       - uses: actions/checkout@v4
 
@@ -33,6 +35,7 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/cms-contentful-app:latest
+      
       
       # - name: Build and Push Docker Image
       #   run: |
