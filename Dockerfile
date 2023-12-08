@@ -26,6 +26,9 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 ENV NEXT_TELEMETRY_DISABLED 1
 
+# Debugging statement
+RUN ls -al /app
+
 RUN yarn install --immutable && yarn build
 
 # If using npm comment out above and use below instead
