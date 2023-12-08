@@ -15,7 +15,7 @@ RUN \
   fi
 
 # install dependencies
-RUN yarn install --frozen-lockfile
+# RUN yarn install
 
 # Rebuild the source code only when needed
 FROM base AS builder
