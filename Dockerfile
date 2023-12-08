@@ -15,6 +15,7 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
+
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
@@ -26,6 +27,11 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
+RUN yarn build
+
+# If using npm comment out above and use below instead
+# RUN npm run build
+
 # Production image, copy all the files and run next
 FROM base AS runner
 WORKDIR /app
@@ -34,15 +40,10 @@ ENV NODE_ENV production
 # Uncomment the following line in case you want to disable telemetry during runtime.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
-RUN yarn build
-
-# If using npm comment out above and use below instead
-# RUN npm run build
-
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# COPY --from=builder /app/public ./public
+COPY --from=builder /app/public ./public
 
 # Set the correct permission for prerender cache
 RUN mkdir .next
