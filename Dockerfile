@@ -15,13 +15,13 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
-RUN yarn install --immutable
-
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+
+RUN yarn install --immutable
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
@@ -44,7 +44,7 @@ ENV NODE_ENV production
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# COPY --from=builder /app/public ./public
+COPY --from=builder /app/public ./public
 
 # Set the correct permission for prerender cache
 RUN mkdir .next
@@ -57,9 +57,9 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
 
-EXPOSE 4000
+EXPOSE 39209
 
-ENV PORT 4000
+ENV PORT 39209
 # set hostname to localhost
 ENV HOSTNAME "0.0.0.0"
 
