@@ -29,6 +29,7 @@ COPY . .
 # ENV NEXT_TELEMETRY_DISABLED 1
 
 # Debugging statement
+RUN cat /app/.env.local
 RUN ls -al /app
 
 RUN yarn build

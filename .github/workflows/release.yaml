@@ -23,9 +23,9 @@ jobs:
       
       - name: 'Create env file'
         run: |
-          touch .env
-          echo ${{ secrets.ENV_FILE }} >> .env
-          cat .env
+          touch .env.local
+          echo ${{ secrets.ENV_FILE }} >> .env.local
+          cat .env.local
 
       - name: list of files
         run: ls -la
