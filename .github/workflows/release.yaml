@@ -48,7 +48,7 @@ jobs:
     needs: build-push
     steps:
       - name: deploy CMS apps
-        uses: appleboy/ssh-action@v1.0.0
+        uses: appleboy/ssh-action@v0.1.9
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
