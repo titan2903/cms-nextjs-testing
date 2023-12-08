@@ -57,5 +57,4 @@ jobs:
           script: |
             docker login --username=${{ secrets.DOCKERHUB_USERNAME }} --password=${{ secrets.DOCKERHUB_TOKEN }}
             docker pull titan29/cms-contentful-app:latest
-            docker rm -f cms
             docker run --name cms -d --restart=always -p 39209:39209 titan29/cms-contentful-app:latest
