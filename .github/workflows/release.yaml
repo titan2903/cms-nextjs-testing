@@ -6,61 +6,52 @@ on:
       - "*"
 
 jobs:
+  build-push:
+    runs-on: ubuntu-latest
+    env:
+      ENV_FILE: ${{ vars.ENV_FILE }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Create env file
+        run: |
+          touch .env.local
+          echo $ENV_FILE >> .env.local
+
+      - name: list of files
+        run: ls -la
+
+      # - name: Login to Docker Hub
+      #   uses: docker/login-action@v3
+      #   with:
+      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
+      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # - name: Set up Docker Buildx
+      #   uses: docker/setup-buildx-action@v3
+    
+      # - name: Build and push
+      #   uses: docker/build-push-action@v5
+      #   with:
+      #     context: .
+      #     file: ./Dockerfile
+      #     push: true
+      #     tags: ${{ secrets.DOCKERHUB_USERNAME }}/cms-contentful-app:latest
+
   deploy:
     runs-on: ubuntu-latest
     needs: build-push
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Set up SSH key
-        run: echo "${{ secrets.PRIVATE_KEY }}" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
-
-      - name: Debug SSH Connection
-        run: ssh -o StrictHostKeyChecking=no -v -i ~/.ssh/id_rsa ${{ secrets.USERNAME }}@${{ secrets.HOST }} 'echo Hello'
-
-      - name: deploy CMS apps
+      - name: Deploy CMS Apps
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.PRIVATE_KEY }}
-          # password: ${{ secrets.PASSWORD }}
           port: 22
           # script: |
           #   whoami
           #   docker login --username=${{ secrets.DOCKERHUB_USERNAME }} --password=${{ secrets.DOCKERHUB_TOKEN }}
           #   docker pull titan29/cms-contentful-app:latest
-          #   docker rm -f cms
+          #   docker rm -f cms || true  # Use '|| true' to prevent the workflow from failing if the container does not exist
           #   docker run --name cms -d --restart=always -p 39209:39209 titan29/cms-contentful-app:latest
-
-  # build-push:
-  #   runs-on: ubuntu-latest
-  #   env:
-  #     ENV_FILE: ${{ vars.ENV_FILE }}
-  #   steps:
-  #     - uses: actions/checkout@v3
-
-  #     - name: Create env file
-  #       run: |
-  #         touch .env.local
-  #         echo $ENV_FILE >> .env.local
-
-  #     - name: list of files
-  #       run: ls -la
-
-  #     - name: Login to Docker Hub
-  #       uses: docker/login-action@v3
-  #       with:
-  #         username: ${{ secrets.DOCKERHUB_USERNAME }}
-  #         password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-  #     - name: Set up Docker Buildx
-  #       uses: docker/setup-buildx-action@v3
-    
-  #     - name: Build and push
-  #       uses: docker/build-push-action@v5
-  #       with:
-  #         context: .
-  #         file: ./Dockerfile
-  #         push: true
-  #         tags: ${{ secrets.DOCKERHUB_USERNAME }}/cms-contentful-app:latest
