@@ -16,6 +16,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
       - name: list of files
         run: ls -la
 
@@ -36,16 +41,3 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/cms-contentful-app:latest
       
-      
-      # - name: Build and Push Docker Image
-      #   run: |
-      #     docker buildx create --use
-      #     docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
-      #     docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKERHUB_USERNAME }}/cms-contentful-app:latest .
-
-      #     # Uncomment the line below if you want to also push a specific version tag
-      #     # docker buildx build --platform linux/amd64,linux/arm64 -t your-dockerhub-username/your-image-name:1.0.0 .
-
-      #     docker push ${{ secrets.DOCKERHUB_USERNAME }}/cms-contentful-app:latest
-      #     # Uncomment the line below if you want to also push a specific version tag
-      #     # docker push your-dockerhub-username/your-image-name:1.0.0
