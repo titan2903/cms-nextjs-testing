@@ -55,4 +55,4 @@ jobs:
             docker login --username=${{ secrets.DOCKERHUB_USERNAME }} --password=${{ secrets.DOCKERHUB_TOKEN }}
             docker pull titan29/cms-contentful-app:latest
             docker rm -f cms || true  # Use '|| true' to prevent the workflow from failing if the container does not exist
-            docker run --name cms -d --restart=always -p 39209:39209 titan29/cms-contentful-app:latest
+            docker run --name cms -d --restart=always -p 3050:3050 titan29/cms-contentful-app:latest
